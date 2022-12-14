@@ -21,3 +21,15 @@ resource "vultr_instance" "vpn_server" {
     label = var.label
     tags = var.tags
 }
+
+resource "vultr_reverse_ipv4" "ipv4_address" {
+    instance_id = "${vultr_instance.vpn_server.id}"
+    ip = "${vultr_instance.vpn_server.main_ip}"
+    reverse = var.hostname
+}
+
+resource "vultr_reverse_ipv6" "ipv6_address" {
+    instance_id = "${vultr_instance.vpn_server.id}"
+    ip = "${vultr_instance.vpn_server.v6_main_ip}"
+    reverse = var.hostname
+}
