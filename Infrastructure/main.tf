@@ -1,3 +1,14 @@
+locals {
+  tags = {
+    terraform   = "true"
+    project     = "cobos.io"
+    type        = "core"
+    environment = "production"
+  }
+  vultr_tags = ["terraform", "cobos.io", "cobosio-core", "production"]
+  vpn_domain = "vpn.cobos.io"
+}
+
 module "dns_zone" {
   source       = "./route53"
   route53_zone = "cobos.io"
@@ -69,12 +80,31 @@ module "dns_zone" {
       type    = "TXT"
       ttl     = 300
       records = ["v=spf1 include:amazonses.com ~all"]
-      }, {
+    },
+    {
       name    = "www.cobos.io"
       type    = "CNAME"
       ttl     = 300
       records = ["ernestocobos.elementor.cloud"]
     },
+    {
+      name    = "vpn.cobos.io"
+      type    = "A"
+      ttl     = 300
+      records = [module.vpn.ipv4_address]
+    },
+    {
+      name    = "vpn.cobos.io"
+      type    = "AAAA"
+      ttl     = 300
+      records = [module.vpn.ipv6_address]
+    },
   ]
 }
 
+module "vpn" {
+  source   = "./vpn"
+  hostname = local.vpn_domain
+  label    = "vpn"
+  tags     = local.vultr_tags
+}
