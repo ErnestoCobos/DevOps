@@ -6,7 +6,7 @@ data "vultr_ssh_key" "my_ssh_key" {
 }
 
 resource "vultr_instance" "vpn_server" {
-    plan = "vhp-1c-1gb-amd"  # 1024 MB RAM,25 GB NVMe,2.00 TB BW, $6.00 - vc2-1c-1gb
+    plan = "vhp-1c-1gb-amd"  # 1024 MB RAM,25 GB NVMe,2.00 TB BW, $6.00
     region = "mex"
     app_id = 50 # Pritunl App
     ssh_key_ids = [data.vultr_ssh_key.my_ssh_key.id]
