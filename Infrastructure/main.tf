@@ -100,6 +100,18 @@ module "dns_zone" {
       ttl     = 300
       records = [module.vpn.ipv6_address]
     },
+    {
+      name    = "blog.cobos.io"
+      type    = "A"
+      ttl     = 300
+      records = ["162.159.153.4","162.159.152.4"]
+    },    
+    {
+      name    = "ve.cobos.io"
+      type    = "A"
+      ttl     = 300
+      records = ["192.168.245.8"]
+    },
   ]
 }
 
