@@ -39,7 +39,8 @@ module "dns_zone" {
       type = "TXT"
       ttl  = 3600
       records = [
-        "google-site-verification=bUUhpg9pov_cfk3P6yX8nVd2wBCvS6IVs5rGEF_H3Is"
+        "google-site-verification=bUUhpg9pov_cfk3P6yX8nVd2wBCvS6IVs5rGEF_H3Is",
+        "openai-domain-verification=dv-J5bQpGTn3ZfrErpgxoAxpHJK"
       ]
     },
     {
@@ -139,13 +140,13 @@ module "dns_zone_krakensuplem" {
   source       = "./route53"
   route53_zone = "krakensuplem.com"
   records = [
-        {
+    {
       name    = ""
       type    = "A"
       ttl     = 300
       records = ["23.227.38.65"]
     },
-        {
+    {
       name    = "www"
       type    = "CNAME"
       ttl     = 300
