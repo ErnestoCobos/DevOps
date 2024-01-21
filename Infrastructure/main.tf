@@ -133,6 +133,12 @@ module "dns_zone" {
       ttl     = 300
       records = ["192.227.177.13"]
     },
+    {
+      name    = "vm.cobos.io"
+      type    = "A"
+      ttl     = 300
+      records = ["192.168.245.15"]
+    },
   ]
 }
 
