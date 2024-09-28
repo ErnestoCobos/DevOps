@@ -1,0 +1,5 @@
+---
+- hosts: voltaflow
+  become: true
+  roles:
+    - common

@@ -1,0 +1,42 @@
+---
+- name: Ensure gnupg is installed
+  apt:
+    name: gnupg
+    state: present
+    update_cache: yes
+
+- name: Add Pritunl GPG key
+  apt_key:
+    url: https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+    state: present
+  register: gpg_result
+  ignore_errors: true
+
+- name: Add Pritunl GPG key (alternative method)
+  shell: |
+    curl -fsSL https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pritunl.gpg
+  when: gpg_result is failed
+  args:
+    creates: /etc/apt/trusted.gpg.d/pritunl.gpg
+
+- name: Add Pritunl repository
+  apt_repository:
+    repo: deb https://repo.pritunl.com/stable/apt noble main
+    state: present
+    filename: pritunl
+    update_cache: no
+
+- name: Update apt-get repo and cache
+  apt:
+    update_cache: yes
+  ignore_errors: true
+
+- name: Upgrade all apt packages
+  apt:
+    upgrade: yes
+
+- name: Install Pritunl client
+  apt:
+    name: pritunl-client
+    state: present
+    update_cache: yes
